@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personajes - The Big Bang Theory</title>
+    <style>
+        /* Reset de estilos básicos */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Estilos generales */
+        body {
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Contenedor principal */
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Encabezado */
+        header {
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        header nav {
+            margin-top: 10px;
+        }
+
+        header nav a {
+            color: #007bff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        header nav a:hover {
+            color: #0056b3;
+        }
+
+        /* Estilos de la lista de personajes */
+        .character-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .character-card {
+            width: 200px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        /* Estilo para las imágenes de los personajes */
+        .character-image {
+            width: 100%;
+            max-width: 150px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Texto de los personajes */
+        .character-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .character-description {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Pie de página */
+        footer {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        footer p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Personajes</h1>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="temporadas.html">Temporadas</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="character-list" id="character-list"></section>
+    </main>
+
+    <footer>
+        <p>Desarrollado por Daniel Manjarres | Fecha de creación: 2/11/2024 </p>
+    </footer>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/api/personajes')
+            .then(response => response.json())
+            .then(data => {
+                const characterList = document.getElementById('character-list');
+                data.forEach(personaje => {
+                    const characterCard = document.createElement('div');
+                    characterCard.className = 'character-card';
+                    characterCard.innerHTML = `
+                        <img src="${personaje.fotoUrl}" alt="${personaje.nombre}" class="character-image">
+                        <h3 class="character-name">${personaje.nombre}</h3>
+                        <p class="character-description">${personaje.descripcion}</p>
+                    `;
+                    characterList.appendChild(characterCard);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    });
+</script>
+</body>
+</html>

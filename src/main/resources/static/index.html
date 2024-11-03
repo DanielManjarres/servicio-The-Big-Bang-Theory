@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Big Bang Theory</title>
+    <style>
+        /* Estilos básicos para la presentación */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 600px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        img.poster {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .details p {
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1 id="nombre-serie">The Big Bang Theory</h1>
+        <nav>
+            <a href="temporadas.html">Temporadas</a> |
+            <a href="personajes.html">Personajes</a>
+        </nav>
+    </header>
+
+    <main>
+        <img id="poster" src="/images/poster.jpg" alt="Póster de The Big Bang Theory" class="poster">
+        <section class="details">
+            <p><strong>Creador:</strong> <span id="creador-serie"></span></p>
+            <p><strong>Clasificación General:</strong> <span id="clasificacion-serie"></span></p>
+            <p><strong>Promedio de Calificación:</strong> <span id="promedio-calificacion"></span></p>
+            <p><strong>Capítulo Mejor Calificado:</strong> <span id="capitulo-mejor-calificado"></span> - Calificación: <span id="calificacion-mejor-capitulo"></span></p>
+            <p><strong>Descripción:</strong> <span id="descripcion-serie"></span></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Desarrollado por Daniel Manjarres | Fecha de creación: 2/11/2024 </p>
+    </footer>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Realiza la solicitud al endpoint para obtener los datos detallados de la serie
+        fetch('http://localhost:8080/api/serie/1/detalle') // Cambia "1" si tienes otro ID
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la solicitud: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Inserta los datos de la serie en el HTML
+                document.getElementById('nombre-serie').textContent = data.nombre || 'Nombre no disponible';
+                document.getElementById('creador-serie').textContent = data.creador || 'Creador no disponible';
+                document.getElementById('clasificacion-serie').textContent = data.clasificacion || 'N/A';
+                document.getElementById('promedio-calificacion').textContent = data.promedioCalificacion || 'N/A';
+                document.getElementById('capitulo-mejor-calificado').textContent = data.capituloMejorCalificado || 'N/A';
+                document.getElementById('calificacion-mejor-capitulo').textContent = data.calificacionMejorCapitulo || 'N/A';
+                document.getElementById('descripcion-serie').textContent = data.descripcion || 'Descripción no disponible';
+            })
+            .catch(error => console.error('Error:', error));
+    });
+</script>
+
+</body>
+</html>
